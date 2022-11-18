@@ -2,6 +2,7 @@ package com.udacity
 
 import android.app.NotificationManager
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +34,8 @@ class DetailActivity : AppCompatActivity() {
             var status=intent!!.extras!!.getString("status").toString()
             includeBinding.name.text=title
             includeBinding.theStatus.text=status
+//            includeBinding.theStatus.setTextColor(Color.parseColor("#FF0000"))
+
 
         }
     }
@@ -43,5 +46,7 @@ class DetailActivity : AppCompatActivity() {
         val backIntent = Intent(this,MainActivity::class.java)
         startActivity(backIntent)
     }
+
+
 
 }

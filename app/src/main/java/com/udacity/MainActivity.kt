@@ -90,9 +90,8 @@ class MainActivity : AppCompatActivity() {
                     .setAllowedOverRoaming(true)
             Log.i(TAG, "download:" + URL)
 
-            val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-            downloadID =
-                downloadManager.enqueue(request)// enqueue puts the download request in the queue.
+            downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+            downloadID = downloadManager!!.enqueue(request)// enqueue puts the download request in the queue.// enqueue puts the download request in the queue.
         }
     }
 
@@ -103,17 +102,17 @@ class MainActivity : AppCompatActivity() {
             when(view.getId()){
                 R.id.firstRadio ->
                     if (checked){
-                          URL = "https://github.com/bumptech/glide"
+                          URL = GLIDE_APP_URL
                           title="Glide_image Loading Library by Bump Tech"
                     }
                 R.id.secondRadio ->
                     if(checked){
-                        URL = "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter"
+                        URL = MAIN_APP_URL
                         title = "LoadApp-Current repository by Udacity"
                     }
                 R.id.thirdRadio ->
                     if (checked){
-                        URL = "https://github.com/square/retrofit"
+                        URL = RETROFIT_APP_URL
                         title = "Retrofit-Type-safe HTTP client for Android and Java by Square,Inc"
                     }
             }
@@ -159,12 +158,12 @@ class MainActivity : AppCompatActivity() {
                 when (cursor.getInt(columnIndex)) {
 
                     DownloadManager.STATUS_FAILED -> {
-                        downloadStatus ="FAILED"
+                        downloadStatus ="FAIL"
                         Log.e(TAG, "downloadStatus: "+ downloadStatus )
                     }
 
                     DownloadManager.STATUS_SUCCESSFUL -> {
-                        downloadStatus ="SUCCESSFUL"
+                        downloadStatus ="SUCCESS"
                         Log.e(TAG, "downloadStatus: " + downloadStatus )
                     }
 
@@ -176,6 +175,11 @@ class MainActivity : AppCompatActivity() {
         return downloadStatus
     }
 
+    companion object{
+        const val MAIN_APP_URL = "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
+        const val RETROFIT_APP_URL = "https://github.com/square/retrofit/archive/refs/heads/master.zip"
+        const val GLIDE_APP_URL = "https://github.com/bumptech/glide/archive/refs/heads/master.zip"
+    }
 
 }
 
