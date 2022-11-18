@@ -8,9 +8,12 @@ import androidx.core.app.NotificationCompat
 
 private val NOTIFICATION_ID = 0
 
-fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
+fun NotificationManager.sendNotification(title: String,status:String, applicationContext: Context) {
 
     val contentIntent = Intent(applicationContext, DetailActivity::class.java)
+
+    contentIntent.putExtra("title",title)
+    contentIntent.putExtra("status",status)
 
     val contentPendingIntent = PendingIntent.getActivity(
         applicationContext,
@@ -28,7 +31,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         .setSmallIcon(R.drawable.ic_assistant_black_24dp)
         .setContentTitle(applicationContext
             .getString(R.string.notification_title))
-        .setContentText(messageBody)
+        .setContentText(title)
 
 
         .setAutoCancel(true)

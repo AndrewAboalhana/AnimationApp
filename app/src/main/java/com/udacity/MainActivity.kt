@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.database.Cursor
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
@@ -27,6 +28,9 @@ class MainActivity : AppCompatActivity() {
     private  val TAG = "MainActivity"
     private var downloadID: Long = 0
     private var URL : String? = null
+    private var title : String? = null
+    private var downloadManager: DownloadManager? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,17 +46,29 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
         custom_button.setOnClickListener {
             download()
-            val notificationManager = ContextCompat.getSystemService(
-                this,
-                NotificationManager::class.java
-            ) as NotificationManager
-            notificationManager.sendNotification(this.getString(R.string.notification_description), this)
+
         }
     }
+
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+
+            if(id==downloadID){
+
+                val notificationManager = ContextCompat.getSystemService(
+                    applicationContext,
+                    NotificationManager::class.java
+                ) as NotificationManager
+                title?.let {
+                    downloadStatus(downloadID)?.let { it1 ->
+                        notificationManager.sendNotification(it, it1,
+                            applicationContext)
+                    }
+                }
+
+            }
         }
     }
 
@@ -90,14 +106,17 @@ class MainActivity : AppCompatActivity() {
                 R.id.firstRadio ->
                     if (checked){
                           URL = "https://github.com/bumptech/glide"
+                          title="Glide_image Loading Library by Bump Tech"
                     }
                 R.id.secondRadio ->
                     if(checked){
                         URL = "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter"
+                        title = "LoadApp-Current repository by Udacity"
                     }
                 R.id.thirdRadio ->
                     if (checked){
                         URL = "https://github.com/square/retrofit"
+                        title = "Retrofit-Type-safe HTTP client for Android and Java by Square,Inc"
                     }
             }
         }
@@ -124,6 +143,40 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun downloadStatus(downloadIdRef: Long): String? {
+
+        var downloadStatus: String ?=null
+
+        val downloadManagerQuery = DownloadManager.Query()
+        downloadManagerQuery.setFilterById(downloadIdRef)
+
+        val cursor: Cursor? = downloadManager?.query(downloadManagerQuery)
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+
+                val columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
+
+                when (cursor.getInt(columnIndex)) {
+
+                    DownloadManager.STATUS_FAILED -> {
+                        downloadStatus ="FAILED"
+                    }
+
+                    DownloadManager.STATUS_SUCCESSFUL -> {
+                        downloadStatus ="SUCCESSFUL"
+                    }
+
+
+                }
+
+            }
+        }
+        return downloadStatus
+    }
 
 
 }
+
+
+
