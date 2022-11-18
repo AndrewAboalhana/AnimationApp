@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import com.udacity.databinding.ActivityDetailBinding
 import kotlinx.android.synthetic.main.activity_detail.*
 
@@ -18,6 +19,7 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         val view = binding!!.root
         setContentView(view)
+        val includeBinding= binding!!.include
         setSupportActionBar(toolbar)
 
         val notificationManager = ContextCompat.getSystemService(
@@ -29,6 +31,8 @@ class DetailActivity : AppCompatActivity() {
         if (intent.extras != null){
             var title=intent!!.extras!!.getString("title").toString()
             var status=intent!!.extras!!.getString("status").toString()
+            includeBinding.name.text=title
+            includeBinding.theStatus.text=status
 
         }
     }

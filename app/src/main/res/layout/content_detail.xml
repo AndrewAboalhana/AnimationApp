@@ -34,7 +34,7 @@
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="18dp"
         android:text="@string/firstRadio"
         android:textColor="#004349"
         android:textSize="20sp"

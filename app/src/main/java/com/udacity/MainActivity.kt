@@ -61,16 +61,14 @@ class MainActivity : AppCompatActivity() {
                     applicationContext,
                     NotificationManager::class.java
                 ) as NotificationManager
-                title?.let {
-                    downloadStatus(downloadID)?.let { it1 ->
-                        notificationManager.sendNotification(it, it1,
-                            applicationContext)
+
+                        notificationManager.sendNotification(title.toString(),
+                            downloadStatus(downloadID).toString(),applicationContext)
                     }
                 }
 
             }
-        }
-    }
+
 
     private fun download() {
         val notificationManager =
@@ -153,6 +151,7 @@ class MainActivity : AppCompatActivity() {
         val cursor: Cursor? = downloadManager?.query(downloadManagerQuery)
 
         if (cursor != null) {
+            Log.e(TAG, "downloadStatus: " + cursor )
             if (cursor.moveToFirst()) {
 
                 val columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
@@ -161,10 +160,12 @@ class MainActivity : AppCompatActivity() {
 
                     DownloadManager.STATUS_FAILED -> {
                         downloadStatus ="FAILED"
+                        Log.e(TAG, "downloadStatus: "+ downloadStatus )
                     }
 
                     DownloadManager.STATUS_SUCCESSFUL -> {
                         downloadStatus ="SUCCESSFUL"
+                        Log.e(TAG, "downloadStatus: " + downloadStatus )
                     }
 
 
