@@ -45,8 +45,23 @@ class LoadingButton @JvmOverloads constructor(
 
         }
 
-    private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
+    var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
 
+     when(new){
+         ButtonState.Loading ->{
+             invalidate()
+         }
+
+         ButtonState.Clicked ->{
+             valueAnimator.start()
+             invalidate()
+         }
+         ButtonState.Completed->{
+             valueAnimator.cancel()
+         }
+
+
+     }
 
 
     }
@@ -91,7 +106,6 @@ class LoadingButton @JvmOverloads constructor(
 
         if (buttonState == ButtonState.Loading ) {
 
-            valueAnimator.start()
 
             buttonRec2.set(0f, 0f, widthSize * progress, heightSize.toFloat())
             canvas?.drawRect(buttonRec2, paintSec)

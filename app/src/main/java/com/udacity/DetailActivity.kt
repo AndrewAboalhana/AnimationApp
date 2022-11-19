@@ -1,13 +1,14 @@
 package com.udacity
 
+
 import android.app.NotificationManager
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import com.udacity.databinding.ActivityDetailBinding
 import kotlinx.android.synthetic.main.activity_detail.*
 
@@ -44,6 +45,8 @@ class DetailActivity : AppCompatActivity() {
 
         }
     }
+
+
 
 
 
