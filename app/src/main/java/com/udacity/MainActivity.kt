@@ -3,7 +3,6 @@ package com.udacity
 import android.app.DownloadManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
-
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -18,7 +17,6 @@ import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-
 import androidx.core.content.ContextCompat
 import com.udacity.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
@@ -49,7 +47,6 @@ class MainActivity : AppCompatActivity() {
 
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
         custom_button.setOnClickListener {
-            custom_button.buttonState = ButtonState.Clicked
             download()
 
 
@@ -89,6 +86,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"Please select the file to download",Toast.LENGTH_SHORT).show()
         }
         else {
+            custom_button.buttonState = ButtonState.Clicked
             val request =
                 DownloadManager.Request(Uri.parse(URL))
                     .setTitle(getString(R.string.app_name))

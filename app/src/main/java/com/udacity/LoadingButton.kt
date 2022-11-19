@@ -72,7 +72,8 @@ class LoadingButton @JvmOverloads constructor(
          ButtonState.Completed->{
              valueAnimator.cancel()
              progress=0f
-
+             text="Download"
+          invalidate()
          }
 
 
@@ -117,6 +118,9 @@ class LoadingButton @JvmOverloads constructor(
         super.onDraw(canvas)
         buttonRec1.set(0f,0f,widthSize.toFloat(),heightSize.toFloat())
         canvas?.drawRect(buttonRec1,paint)
+
+        textWidth = textPaint.measureText(text)
+
         canvas?.drawText(text,
             (widthSize-textWidth)/2f,
             (heightSize - (textPaint.ascent()+textPaint.descent()))/2f
@@ -127,6 +131,8 @@ class LoadingButton @JvmOverloads constructor(
 
             buttonRec2.set(0f, 0f, widthSize * progress, heightSize.toFloat())
             canvas?.drawRect(buttonRec2, paintSec)
+
+            textWidth = textPaint.measureText(text)
 
             canvas?.drawText(text,(widthSize-textWidth)/2f,(heightSize - (textPaint.ascent()+textPaint.descent()))/2f,textPaint)
 

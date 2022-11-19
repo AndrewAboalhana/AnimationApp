@@ -15,6 +15,10 @@ fun NotificationManager.sendNotification(title: String,status:String, applicatio
     contentIntent.putExtra("title",title)
     contentIntent.putExtra("status",status)
 
+    contentIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    contentIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+
     val contentPendingIntent = PendingIntent.getActivity(
         applicationContext,
         NOTIFICATION_ID,

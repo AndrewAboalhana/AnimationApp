@@ -53,8 +53,9 @@ class DetailActivity : AppCompatActivity() {
     fun backToMainActivity(view: View) {
         val backIntent = Intent(this,MainActivity::class.java)
         startActivity(backIntent)
-        finish()
+        finishAffinity()
     }
+
 
 
 
