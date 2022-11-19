@@ -3,7 +3,7 @@ package com.udacity
 import android.app.DownloadManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
+
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -18,7 +18,7 @@ import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
+
 import androidx.core.content.ContextCompat
 import com.udacity.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
@@ -62,16 +62,18 @@ class MainActivity : AppCompatActivity() {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
 
             if(id==downloadID){
-
+                custom_button.buttonState = ButtonState.Completed
                 val notificationManager = ContextCompat.getSystemService(
                     applicationContext,
                     NotificationManager::class.java
                 ) as NotificationManager
-
                         notificationManager.sendNotification(title.toString(),
                             downloadStatus(downloadID).toString(),applicationContext)
+
                     }
+
                 }
+
 
             }
 

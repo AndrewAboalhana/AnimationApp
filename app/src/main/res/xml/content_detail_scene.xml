@@ -42,12 +42,9 @@
     <Transition
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start"
-        app:duration="2000">
-  <OnClick
-      app:targetId="@id/ok_button"
-      app:clickAction="transitionToEnd"
-      android:onClick="backToMainActivity"
-      />
+        app:duration="2000"
+        app:autoTransition="animateToEnd">
+
     </Transition>
 
 </MotionScene>

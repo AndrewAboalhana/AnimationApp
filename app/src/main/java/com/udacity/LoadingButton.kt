@@ -29,7 +29,6 @@ class LoadingButton @JvmOverloads constructor(
     private var textRec = Rect()
     private var circleColor =Color.parseColor("#F9A825")
     private var textWidth = 0f
-    private var text2= "We are loading"
 
 
     private var valueAnimator = ValueAnimator.ofFloat(0f,1f)
@@ -42,6 +41,19 @@ class LoadingButton @JvmOverloads constructor(
                       progress = it.animatedValue as Float
                 invalidate()
             }
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animation: Animator) {
+
+
+                }
+
+                override fun onAnimationEnd(animation: Animator) {
+                    buttonState = ButtonState.Completed
+                    this@LoadingButton.isEnabled = true
+                }
+            })
+
+
 
         }
 
@@ -53,11 +65,14 @@ class LoadingButton @JvmOverloads constructor(
          }
 
          ButtonState.Clicked ->{
+             text = "We are Loading"
              valueAnimator.start()
              invalidate()
          }
          ButtonState.Completed->{
              valueAnimator.cancel()
+             progress=0f
+
          }
 
 
@@ -102,15 +117,18 @@ class LoadingButton @JvmOverloads constructor(
         super.onDraw(canvas)
         buttonRec1.set(0f,0f,widthSize.toFloat(),heightSize.toFloat())
         canvas?.drawRect(buttonRec1,paint)
-        canvas?.drawText(text,350f,100f,textPaint)
+        canvas?.drawText(text,
+            (widthSize-textWidth)/2f,
+            (heightSize - (textPaint.ascent()+textPaint.descent()))/2f
+            ,textPaint)
 
-        if (buttonState == ButtonState.Loading ) {
+        if (buttonState == ButtonState.Clicked ) {
 
 
             buttonRec2.set(0f, 0f, widthSize * progress, heightSize.toFloat())
             canvas?.drawRect(buttonRec2, paintSec)
 
-            canvas?.drawText(text2,350f,100f,textPaint)
+            canvas?.drawText(text,(widthSize-textWidth)/2f,(heightSize - (textPaint.ascent()+textPaint.descent()))/2f,textPaint)
 
 
             textPaint.getTextBounds(text, 0, text.length, textRec)
@@ -127,11 +145,7 @@ class LoadingButton @JvmOverloads constructor(
                 true,
                 circle)
         }
-//        canvas?.drawRect(0f,0f,widthSize*progress,heightSize.toFloat(),paintSec)
-//        canvas?.drawRect(0f,0f,widthSize.toFloat(),heightSize.toFloat(),paint)
-//        val textStartPadding = width.toFloat()/2f
-//        val textTopPadding = height.toFloat()/2f
-//        canvas?.drawText(text,textStartPadding,textTopPadding,textPaint)
+
 
 
     }
