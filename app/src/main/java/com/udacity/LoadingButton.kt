@@ -1,6 +1,8 @@
 package com.udacity
 
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
@@ -10,6 +12,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.Button
+import kotlinx.android.synthetic.main.content_detail.view.*
 import kotlin.properties.Delegates
 
 class LoadingButton @JvmOverloads constructor(
@@ -21,7 +24,12 @@ class LoadingButton @JvmOverloads constructor(
     private var buttonSecondColor = Color.parseColor("#004349")
     private var text ="Download"
     private var progress = 0f
-
+    private var buttonRec1 = RectF()
+    private var buttonRec2 = RectF()
+    private var textRec = Rect()
+    private var circleColor =Color.parseColor("#F9A825")
+    private var textWidth = 0f
+    private var text2= "We are loading"
 
 
     private var valueAnimator = ValueAnimator.ofFloat(0f,1f)
@@ -34,9 +42,12 @@ class LoadingButton @JvmOverloads constructor(
                       progress = it.animatedValue as Float
                 invalidate()
             }
+
         }
 
     private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
+
+
 
     }
 
@@ -49,22 +60,21 @@ class LoadingButton @JvmOverloads constructor(
     private val paintSec = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = buttonSecondColor
         style = Paint.Style.FILL
-        textAlign = CENTER
-        textSize = 55.0f
-        typeface = Typeface.create( "", Typeface.BOLD)
     }
        private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = buttonBasicColor
         style = Paint.Style.FILL
-        textAlign = CENTER
-        textSize = 55.0f
-        typeface = Typeface.create( "", Typeface.BOLD)
+
     }
-    private val textPaint = Paint().apply {
+    private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.WHITE
-        textSize = 55.0f
-        textAlign = CENTER
-        typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+        textAlign = LEFT
+        textSize = 50f
+        typeface = Typeface.DEFAULT_BOLD
+    }
+
+    private val circle = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = circleColor
     }
 
 
@@ -75,11 +85,39 @@ class LoadingButton @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas?.drawRect(0f,0f,widthSize*progress,heightSize.toFloat(),paintSec)
-        canvas?.drawRect(0f,0f,widthSize.toFloat(),heightSize.toFloat(),paint)
-        val textStartPadding = width.toFloat()/2f
-        val textTopPadding = height.toFloat()/2f
-        canvas?.drawText(text,textStartPadding,textTopPadding,textPaint)
+        buttonRec1.set(0f,0f,widthSize.toFloat(),heightSize.toFloat())
+        canvas?.drawRect(buttonRec1,paint)
+        canvas?.drawText(text,350f,100f,textPaint)
+
+        if (buttonState == ButtonState.Loading ) {
+
+            valueAnimator.start()
+
+            buttonRec2.set(0f, 0f, widthSize * progress, heightSize.toFloat())
+            canvas?.drawRect(buttonRec2, paintSec)
+
+            canvas?.drawText(text2,350f,100f,textPaint)
+
+
+            textPaint.getTextBounds(text, 0, text.length, textRec)
+            val textRadius = textRec.height().toFloat()
+
+            canvas?.translate(
+                (widthSize + textWidth + textRadius) / 2f,
+                heightSize / 2f - textRadius / 2)
+
+
+            canvas?.drawArc(0f, 0f, textRadius, textRadius,
+                0f,
+                360 * progress,
+                true,
+                circle)
+        }
+//        canvas?.drawRect(0f,0f,widthSize*progress,heightSize.toFloat(),paintSec)
+//        canvas?.drawRect(0f,0f,widthSize.toFloat(),heightSize.toFloat(),paint)
+//        val textStartPadding = width.toFloat()/2f
+//        val textTopPadding = height.toFloat()/2f
+//        canvas?.drawText(text,textStartPadding,textTopPadding,textPaint)
 
 
     }

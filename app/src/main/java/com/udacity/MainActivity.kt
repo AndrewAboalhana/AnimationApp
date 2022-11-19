@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun downloadStatus(downloadIdRef: Long): String? {
 
-        var downloadStatus: String ?=null
+        var downloadStatus: String ?="FAIL"
 
         val downloadManagerQuery = DownloadManager.Query()
         downloadManagerQuery.setFilterById(downloadIdRef)

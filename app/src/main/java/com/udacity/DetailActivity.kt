@@ -33,8 +33,13 @@ class DetailActivity : AppCompatActivity() {
             var title=intent!!.extras!!.getString("title").toString()
             var status=intent!!.extras!!.getString("status").toString()
             includeBinding.name.text=title
-            includeBinding.theStatus.text=status
-//            includeBinding.theStatus.setTextColor(Color.parseColor("#FF0000"))
+            if (status=="SUCCESS"){
+                includeBinding.theStatus.text=status
+            }else{
+                includeBinding.theStatus.text=status
+                includeBinding.theStatus.setTextColor(Color.parseColor("#FF0000"))
+            }
+
 
 
         }
@@ -45,6 +50,7 @@ class DetailActivity : AppCompatActivity() {
     fun backToMainActivity(view: View) {
         val backIntent = Intent(this,MainActivity::class.java)
         startActivity(backIntent)
+        finish()
     }
 
 
